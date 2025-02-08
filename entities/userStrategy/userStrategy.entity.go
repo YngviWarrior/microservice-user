@@ -1,7 +1,7 @@
 package userstrategy
 
 type UserStrategy struct {
-	User     uint64 `json:"user"`
-	Strategy uint64 `json:"strategy"`
-	Enabled  bool   `json:"enabled"`
+	UserStrategy uint64 `json:"user"`
+	TradeConfig  uint64 `json:"trade_config"`
+	Enabled      bool   `json:"enabled"`
 }
