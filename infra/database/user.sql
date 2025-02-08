@@ -11,7 +11,7 @@ CREATE TABLE `user` (
     PRIMARY KEY(`user`)
 );
 
-INSERT INTO `user`(`name`, `email` `active`) VALUES("Igor Silva", "igor.desenvolvedor.full@gmail.com" 1);
+INSERT INTO `user`(`name`, `email`, `active`) VALUES("Igor Silva", "igor.desenvolvedor.full@gmail.com", 1);
 
 CREATE TABLE `user_strategy` (
     `user_strategy` BIGINT(11) auto_increment,

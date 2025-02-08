@@ -7,7 +7,7 @@ type InputUser struct {
 }
 
 type OutputUser struct {
-	User   string `json:"user"`
+	User   uint64 `json:"user"`
 	Name   string `json:"name"`
 	Email  string `json:"email"`
 	Active bool   `json:"active"`

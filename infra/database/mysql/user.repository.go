@@ -14,7 +14,7 @@ type userRepository struct {
 
 type UserRepositoryInterface interface {
 	Create(*repositorydto.InputUser) (bool, error)
-	GetUserByEmail(string) (*repositorydto.OutputUser, error)
+	GetUserByEmail(string) (repositorydto.OutputUser, error)
 }
 
 func NewUserRepository(db database.DatabaseInterface) UserRepositoryInterface {
@@ -53,11 +53,15 @@ func (u *userRepository) Create(in *repositorydto.InputUser) (bool, error) {
 		return false, err
 	}
 
+	err = tx.Commit()
+	if err != nil {
+		return false, err
+	}
+
 	return true, nil
 }
 
-func (u *userRepository) GetUserByEmail(email string) (user *repositorydto.OutputUser, err error) {
-	user = &repositorydto.OutputUser{}
+func (u *userRepository) GetUserByEmail(email string) (user repositorydto.OutputUser, err error) {
 	tx, err := u.Db.CreateConnection().BeginTx(context.Background(), &sql.TxOptions{})
 	if err != nil {
 		return
@@ -73,6 +77,11 @@ func (u *userRepository) GetUserByEmail(email string) (user *repositorydto.Outpu
 	switch {
 	case err == sql.ErrNoRows:
 	case err != nil:
+		return
+	}
+
+	err = tx.Commit()
+	if err != nil {
 		return
 	}
 
