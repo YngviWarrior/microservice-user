@@ -1,40 +1,33 @@
 package controller
 
 import (
-	"encoding/json"
+	"errors"
 	"net/http"
 
 	controllerdto "github.com/YngviWarrior/microservice-user/controller/controller_dto"
 	usecasesdto "github.com/YngviWarrior/microservice-user/usecase/usecases_dto"
+	"github.com/gorilla/mux"
 )
 
-func (c *controller) CreateUser(w http.ResponseWriter, r *http.Request) {
+func (c *controller) GetUserByEmail(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var send outputControllerDto
-	var input controllerdto.InputCreateUser
+	var err error
 
-	err := json.NewDecoder(r.Body).Decode(&input)
-	if err != nil {
+	vars := mux.Vars(r)            // Captura os parâmetros da URL
+	email, exists := vars["email"] // Pega o valor de "id"
+
+	if !exists || email == "" {
 		w.WriteHeader(http.StatusInternalServerError)
+		err = errors.New("id is mandatory")
+		send.Status = 0
+		send.Errors = append(send.Errors, err.Error())
 
-		send.Errors = append(send.Errors, "invalid primitive type")
 		c.FormatResponse(w, send)
-		return
 	}
 
-	if !c.InputValidation(w, input) {
-		return
-	}
-
-	if input.Active == nil {
-		active := false
-		input.Active = &active
-	}
-
-	output, err := c.Usecase.CreateUser(&usecasesdto.InputCreateUser{
-		Name:   *input.Name,
-		Email:  *input.Email,
-		Active: *input.Active,
+	output, err := c.Usecase.GetUserByEmail(&usecasesdto.InputGetUserByEmail{
+		Email: email,
 	})
 
 	if err != nil {
@@ -44,7 +37,7 @@ func (c *controller) CreateUser(w http.ResponseWriter, r *http.Request) {
 	} else {
 		send.Status = 1
 		send.Message = "Success"
-		send.Data = controllerdto.OutputCreateUser{
+		send.Data = controllerdto.OutputGetUserByEmail{
 			User:   output.User,
 			Name:   output.Name,
 			Email:  output.Email,

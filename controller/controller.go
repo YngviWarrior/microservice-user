@@ -15,10 +15,11 @@ type controller struct {
 
 type ControllerInterface interface {
 	CreateUser(w http.ResponseWriter, r *http.Request)
+	GetUserByEmail(w http.ResponseWriter, r *http.Request)
 }
 
 type outputControllerDto struct {
-	Status  int64    `json:"status,omitempty"`
+	Status  int64    `json:"status"`
 	Message string   `json:"message,omitempty"`
 	Data    any      `json:"data,omitempty"`
 	Errors  []string `json:"errors,omitempty"`
@@ -28,6 +29,16 @@ func NewController(usecase usecase.UseCaseInterface) ControllerInterface {
 	return &controller{
 		Usecase: usecase,
 	}
+}
+
+func (c *controller) FormatResponse(w http.ResponseWriter, input outputControllerDto) {
+	jsonResp, err := json.Marshal(input)
+
+	if err != nil {
+		log.Panicf("CR 01: %s", err)
+	}
+
+	w.Write(jsonResp)
 }
 
 func (c *controller) InputValidation(w http.ResponseWriter, input any) bool {

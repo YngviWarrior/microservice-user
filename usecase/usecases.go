@@ -12,6 +12,7 @@ type usecase struct {
 
 type UseCaseInterface interface {
 	CreateUser(in *usecasesdto.InputCreateUser) (out *usecasesdto.OutputCreateUser, err error)
+	GetUserByEmail(in *usecasesdto.InputGetUserByEmail) (out *usecasesdto.OutputGetUserByEmail, err error)
 }
 
 func NewUseCase(
