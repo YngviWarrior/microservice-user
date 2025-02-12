@@ -24,6 +24,7 @@ func (c *controller) GetUserByEmail(w http.ResponseWriter, r *http.Request) {
 		send.Errors = append(send.Errors, err.Error())
 
 		c.FormatResponse(w, send)
+		return
 	}
 
 	output, err := c.Usecase.GetUserByEmail(&usecasesdto.InputGetUserByEmail{

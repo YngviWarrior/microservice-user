@@ -33,7 +33,7 @@ func (s *server) InitServer(controllers controller.ControllerInterface) {
 
 	// r.HandleFunc("/exchange/balances/sync", controllersInterface.HandlerSyncBalances).Methods("GET")
 	r.HandleFunc("/user", controllers.CreateUser).Methods("POST")
-	r.HandleFunc("/user/{id}", controllers.GetUserByEmail).Methods("GET")
+	r.HandleFunc("/user/{email}", controllers.GetUserByEmail).Methods("GET")
 	// r.HandleFunc("/bot/health", controllersInterface.HandlerBotHealth).Methods("GET")
 	// r.HandleFunc("/bot/sell-cotation", controllersInterface.HandlerBotHealth).Methods("GET")
 

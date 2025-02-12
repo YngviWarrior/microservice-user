@@ -8,6 +8,7 @@ import (
 )
 
 func (u *usecase) GetUserByEmail(in *usecasesdto.InputGetUserByEmail) (out *usecasesdto.OutputGetUserByEmail, err error) {
+	out = &usecasesdto.OutputGetUserByEmail{}
 	user, err := u.UserRepo.GetUserByEmail(in.Email)
 	if err != nil {
 		return
@@ -16,6 +17,11 @@ func (u *usecase) GetUserByEmail(in *usecasesdto.InputGetUserByEmail) (out *usec
 	if (user == repositorydto.OutputUser{}) {
 		return nil, errors.New("user dont exists")
 	}
+
+	out.Active = user.Active
+	out.Email = user.Email
+	out.User = user.User
+	out.Name = user.Name
 
 	return
 }
