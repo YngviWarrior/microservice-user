@@ -51,25 +51,14 @@ func main() {
 	pb.RegisterUserServiceServer(grpcServer, userService)
 	reflection.Register(grpcServer)
 
-	lis, err := net.Listen("tcp", ":50051")
+	lis, err := net.Listen("tcp", os.Getenv("port"))
 	if err != nil {
 		panic(err)
 	}
 
+	log.Println("Running at port ", os.Getenv("port"))
 	if err := grpcServer.Serve(lis); err != nil {
 		panic(err)
 	}
 
-	// userRepo := mysql.NewUserRepository(database)
-	// userStrategyRepo := mysql.NewUserStrategyRepository(database)
-
-	// // should return all usecases
-	// allUseCases := usecase.NewUseCase(
-	// 	userRepo,
-	// 	userStrategyRepo,
-	// )
-	// // should return all controllers
-	// controllers := controller.NewController(allUseCases)
-
-	// server.NewServer().InitServer(controllers)
 }

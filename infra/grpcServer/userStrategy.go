@@ -7,7 +7,6 @@ import (
 )
 
 func (g *grpcServer) CreateUserStrategy(ctx context.Context, in *pb.CreateUserStrategyRequest) (out *pb.UserStrategyResponse, err error) {
-
 	// userStrategyRepo := mysql.NewUserStrategyRepository(g.Db)
 	// userStrategy := usecase.NewUseCase(nil, userStrategyRepo)
 

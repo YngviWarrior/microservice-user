@@ -27,4 +27,7 @@ message GetUserByEmailRequest {
 service UserService {
     rpc CreateUser(CreateUserRequest) returns (UserResponse) {}
     rpc GetUserByEmail(GetUserByEmailRequest) returns (UserResponse) {}
+    
+    rpc CreateTradeConfig(CreateTradeConfig) returns (TradeConfigResponse) {}
+    rpc ListTradeConfig(ListTradeConfig) returns (TradeConfigResponse) {}
 }
