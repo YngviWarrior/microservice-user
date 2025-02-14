@@ -10,6 +10,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
+// askdopaskd
 type DatabaseInterface interface {
 	CreateConnection() *sql.Conn
 }

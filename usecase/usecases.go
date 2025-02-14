@@ -6,21 +6,19 @@ import (
 )
 
 type usecase struct {
-	UserRepo     mysql.UserRepositoryInterface
-	UserStrategy mysql.UserStrategyRepositoryInterface
+	UserRepo mysql.UserRepositoryInterface
 }
 
 type UseCaseInterface interface {
 	CreateUser(in *usecasesdto.InputCreateUser) (out *usecasesdto.OutputCreateUser, err error)
 	GetUserByEmail(in *usecasesdto.InputGetUserByEmail) (out *usecasesdto.OutputGetUserByEmail, err error)
+	GetUserById(in *usecasesdto.InputGetUserById) (out *usecasesdto.OutputGetUserById, err error)
 }
 
 func NewUseCase(
 	userRepo mysql.UserRepositoryInterface,
-	userStrategy mysql.UserStrategyRepositoryInterface,
 ) UseCaseInterface {
 	return &usecase{
-		UserRepo:     userRepo,
-		UserStrategy: userStrategy,
+		UserRepo: userRepo,
 	}
 }

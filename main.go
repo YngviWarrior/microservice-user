@@ -15,7 +15,6 @@ import (
 )
 
 func main() {
-
 	err := godotenv.Load(".env")
 
 	if err != nil {
@@ -51,12 +50,12 @@ func main() {
 	pb.RegisterUserServiceServer(grpcServer, userService)
 	reflection.Register(grpcServer)
 
-	lis, err := net.Listen("tcp", os.Getenv("port"))
+	lis, err := net.Listen("tcp", os.Getenv("PORT"))
 	if err != nil {
 		panic(err)
 	}
 
-	log.Println("Running at port ", os.Getenv("port"))
+	log.Println("Running at port ", os.Getenv("PORT"))
 	if err := grpcServer.Serve(lis); err != nil {
 		panic(err)
 	}

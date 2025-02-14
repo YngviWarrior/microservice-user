@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion9
 
 const (
 	UserStrategyService_CreateUserStrategy_FullMethodName = "/pb.UserStrategyService/CreateUserStrategy"
+	UserStrategyService_ListUserStrategy_FullMethodName   = "/pb.UserStrategyService/ListUserStrategy"
 )
 
 // UserStrategyServiceClient is the client API for UserStrategyService service.
@@ -27,6 +28,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UserStrategyServiceClient interface {
 	CreateUserStrategy(ctx context.Context, in *CreateUserStrategyRequest, opts ...grpc.CallOption) (*UserStrategyResponse, error)
+	ListUserStrategy(ctx context.Context, in *ListUserStrategyRequest, opts ...grpc.CallOption) (*UserStrategyResponse, error)
 }
 
 type userStrategyServiceClient struct {
@@ -47,11 +49,22 @@ func (c *userStrategyServiceClient) CreateUserStrategy(ctx context.Context, in *
 	return out, nil
 }
 
+func (c *userStrategyServiceClient) ListUserStrategy(ctx context.Context, in *ListUserStrategyRequest, opts ...grpc.CallOption) (*UserStrategyResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UserStrategyResponse)
+	err := c.cc.Invoke(ctx, UserStrategyService_ListUserStrategy_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserStrategyServiceServer is the server API for UserStrategyService service.
 // All implementations must embed UnimplementedUserStrategyServiceServer
 // for forward compatibility.
 type UserStrategyServiceServer interface {
 	CreateUserStrategy(context.Context, *CreateUserStrategyRequest) (*UserStrategyResponse, error)
+	ListUserStrategy(context.Context, *ListUserStrategyRequest) (*UserStrategyResponse, error)
 	mustEmbedUnimplementedUserStrategyServiceServer()
 }
 
@@ -64,6 +77,9 @@ type UnimplementedUserStrategyServiceServer struct{}
 
 func (UnimplementedUserStrategyServiceServer) CreateUserStrategy(context.Context, *CreateUserStrategyRequest) (*UserStrategyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateUserStrategy not implemented")
+}
+func (UnimplementedUserStrategyServiceServer) ListUserStrategy(context.Context, *ListUserStrategyRequest) (*UserStrategyResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListUserStrategy not implemented")
 }
 func (UnimplementedUserStrategyServiceServer) mustEmbedUnimplementedUserStrategyServiceServer() {}
 func (UnimplementedUserStrategyServiceServer) testEmbeddedByValue()                             {}
@@ -104,6 +120,24 @@ func _UserStrategyService_CreateUserStrategy_Handler(srv interface{}, ctx contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserStrategyService_ListUserStrategy_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListUserStrategyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserStrategyServiceServer).ListUserStrategy(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserStrategyService_ListUserStrategy_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserStrategyServiceServer).ListUserStrategy(ctx, req.(*ListUserStrategyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // UserStrategyService_ServiceDesc is the grpc.ServiceDesc for UserStrategyService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -114,6 +148,10 @@ var UserStrategyService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateUserStrategy",
 			Handler:    _UserStrategyService_CreateUserStrategy_Handler,
+		},
+		{
+			MethodName: "ListUserStrategy",
+			Handler:    _UserStrategyService_ListUserStrategy_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

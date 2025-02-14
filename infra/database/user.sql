@@ -13,10 +13,10 @@ CREATE TABLE `user` (
 
 INSERT INTO `user`(`name`, `email`, `active`) VALUES("Igor Silva", "igor.desenvolvedor.full@gmail.com", 1);
 
-CREATE TABLE `user_strategy` (
-    `user_strategy` BIGINT(11) auto_increment,
-    `user` BIGINT(11) NOT NULL,
-    `trade_config` BIGINT(11) NOT NULL,
-    PRIMARY KEY(`user_strategy`),
-    FOREIGN KEY(`user`) REFERENCES `user`(`user`)
-);
+-- CREATE TABLE `user_strategy` (
+--     `user_strategy` BIGINT(11) auto_increment,
+--     `user` BIGINT(11) NOT NULL,
+--     `trade_config` BIGINT(11) NOT NULL,
+--     PRIMARY KEY(`user_strategy`),
+--     FOREIGN KEY(`user`) REFERENCES `user`(`user`)
+-- );

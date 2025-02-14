@@ -11,9 +11,33 @@ import (
 	usecasesdto "github.com/YngviWarrior/microservice-user/usecase/usecases_dto"
 )
 
+func (g *grpcServer) GetUserById(ctx context.Context, in *pb.GetUserByIdRequest) (out *pb.UserResponse, err error) {
+	userRepo := mysql.NewUserRepository(g.Db)
+	userUseCase := usecase.NewUseCase(userRepo)
+
+	response, err := userUseCase.GetUserById(&usecasesdto.InputGetUserById{
+		Id: in.GetId(),
+	})
+	if err != nil {
+		return
+	}
+
+	out = &pb.UserResponse{
+		User: []*pb.User{},
+	}
+	out.User = append(out.User, &pb.User{
+		Name:   response.Name,
+		Email:  response.Email,
+		Active: response.Active,
+		User:   response.User,
+	})
+
+	return
+}
+
 func (g *grpcServer) GetUserByEmail(ctx context.Context, in *pb.GetUserByEmailRequest) (out *pb.UserResponse, err error) {
 	userRepo := mysql.NewUserRepository(g.Db)
-	userUseCase := usecase.NewUseCase(userRepo, nil)
+	userUseCase := usecase.NewUseCase(userRepo)
 
 	response, err := userUseCase.GetUserByEmail(&usecasesdto.InputGetUserByEmail{
 		Email: in.GetEmail(),
@@ -23,13 +47,14 @@ func (g *grpcServer) GetUserByEmail(ctx context.Context, in *pb.GetUserByEmailRe
 	}
 
 	out = &pb.UserResponse{
-		User: &pb.User{
-			Name:   response.Name,
-			Email:  response.Email,
-			Active: response.Active,
-			User:   response.User,
-		},
+		User: []*pb.User{},
 	}
+	out.User = append(out.User, &pb.User{
+		Name:   response.Name,
+		Email:  response.Email,
+		Active: response.Active,
+		User:   response.User,
+	})
 
 	return
 }
@@ -40,7 +65,7 @@ func (g *grpcServer) CreateUser(ctx context.Context, in *pb.CreateUserRequest) (
 	}
 
 	userRepo := mysql.NewUserRepository(g.Db)
-	userUseCase := usecase.NewUseCase(userRepo, nil)
+	userUseCase := usecase.NewUseCase(userRepo)
 	response, err := userUseCase.CreateUser(&usecasesdto.InputCreateUser{
 		Name:   in.GetName(),
 		Email:  in.GetEmail(),
@@ -52,13 +77,14 @@ func (g *grpcServer) CreateUser(ctx context.Context, in *pb.CreateUserRequest) (
 	}
 
 	out = &pb.UserResponse{
-		User: &pb.User{
-			Name:   response.Name,
-			Email:  response.Email,
-			Active: response.Active,
-			User:   response.User,
-		},
+		User: []*pb.User{},
 	}
+	out.User = append(out.User, &pb.User{
+		Name:   response.Name,
+		Email:  response.Email,
+		Active: response.Active,
+		User:   response.User,
+	})
 
 	return
 }
