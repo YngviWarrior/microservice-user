@@ -4,11 +4,28 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/YngviWarrior/microservice-user/infra/database/mysql"
 	"github.com/YngviWarrior/microservice-user/infra/database/mysql/repositorydto"
 	usecasesdto "github.com/YngviWarrior/microservice-user/usecase/usecases_dto"
 )
 
-func (u *usecase) CreateUser(in *usecasesdto.InputCreateUser) (out *usecasesdto.OutputCreateUser, err error) {
+type usecaseCreateUser struct {
+	UserRepo mysql.UserRepositoryInterface
+}
+
+type UseCaseCreateUserInterface interface {
+	CreateUser(in *usecasesdto.InputCreateUser) (out *usecasesdto.OutputCreateUser, err error)
+}
+
+func NewCreateUserUseCase(
+	userRepo mysql.UserRepositoryInterface,
+) UseCaseCreateUserInterface {
+	return &usecaseCreateUser{
+		UserRepo: userRepo,
+	}
+}
+
+func (u *usecaseCreateUser) CreateUser(in *usecasesdto.InputCreateUser) (out *usecasesdto.OutputCreateUser, err error) {
 	user, err := u.UserRepo.GetUserByEmail(in.Email)
 	if err != nil {
 		return

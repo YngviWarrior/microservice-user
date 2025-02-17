@@ -13,7 +13,7 @@ import (
 
 func (g *grpcServer) GetUserById(ctx context.Context, in *pb.GetUserByIdRequest) (out *pb.UserResponse, err error) {
 	userRepo := mysql.NewUserRepository(g.Db)
-	userUseCase := usecase.NewUseCase(userRepo)
+	userUseCase := usecase.NewGetUserByIdUseCase(userRepo)
 
 	response, err := userUseCase.GetUserById(&usecasesdto.InputGetUserById{
 		Id: in.GetId(),
@@ -37,7 +37,7 @@ func (g *grpcServer) GetUserById(ctx context.Context, in *pb.GetUserByIdRequest)
 
 func (g *grpcServer) GetUserByEmail(ctx context.Context, in *pb.GetUserByEmailRequest) (out *pb.UserResponse, err error) {
 	userRepo := mysql.NewUserRepository(g.Db)
-	userUseCase := usecase.NewUseCase(userRepo)
+	userUseCase := usecase.NewGetUserByEmailUseCase(userRepo)
 
 	response, err := userUseCase.GetUserByEmail(&usecasesdto.InputGetUserByEmail{
 		Email: in.GetEmail(),
@@ -65,7 +65,7 @@ func (g *grpcServer) CreateUser(ctx context.Context, in *pb.CreateUserRequest) (
 	}
 
 	userRepo := mysql.NewUserRepository(g.Db)
-	userUseCase := usecase.NewUseCase(userRepo)
+	userUseCase := usecase.NewCreateUserUseCase(userRepo)
 	response, err := userUseCase.CreateUser(&usecasesdto.InputCreateUser{
 		Name:   in.GetName(),
 		Email:  in.GetEmail(),

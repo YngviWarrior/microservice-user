@@ -8,25 +8,25 @@ import (
 	usecasesdto "github.com/YngviWarrior/microservice-user/usecase/usecases_dto"
 )
 
-type usecaseGetUserById struct {
+type usecaseGetUserByEmail struct {
 	UserRepo mysql.UserRepositoryInterface
 }
 
-type UseCaseGetUserByIdInterface interface {
-	GetUserById(in *usecasesdto.InputGetUserById) (out *usecasesdto.OutputGetUserById, err error)
+type UseCaseGetUserByEmailInterface interface {
+	GetUserByEmail(in *usecasesdto.InputGetUserByEmail) (out *usecasesdto.OutputGetUserByEmail, err error)
 }
 
-func NewGetUserByIdUseCase(
+func NewGetUserByEmailUseCase(
 	userRepo mysql.UserRepositoryInterface,
-) UseCaseGetUserByIdInterface {
-	return &usecaseGetUserById{
+) UseCaseGetUserByEmailInterface {
+	return &usecaseGetUserByEmail{
 		UserRepo: userRepo,
 	}
 }
 
-func (u *usecaseGetUserById) GetUserById(in *usecasesdto.InputGetUserById) (out *usecasesdto.OutputGetUserById, err error) {
-	out = &usecasesdto.OutputGetUserById{}
-	user, err := u.UserRepo.GetUserById(in.Id)
+func (u *usecaseGetUserByEmail) GetUserByEmail(in *usecasesdto.InputGetUserByEmail) (out *usecasesdto.OutputGetUserByEmail, err error) {
+	out = &usecasesdto.OutputGetUserByEmail{}
+	user, err := u.UserRepo.GetUserByEmail(in.Email)
 	if err != nil {
 		return
 	}
