@@ -28,7 +28,7 @@ func main() {
 		log.SetOutput(os.Stdout)
 		log.SetOutput(file)
 
-	case "testnet":
+	case "testnet", "demo":
 		log.SetOutput(os.Stdout)
 
 	case "server":
